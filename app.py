@@ -59,8 +59,8 @@ def polling_loop():
     while True:
         for code in PLAN_CODES:
             hits = check_plan(code)
-            lines = "\n".join(f"• {dc} — {status}" for dc, status in hits)
-            send_telegram(f"✅ <b>{code}</b>\n{lines}")
+            lines = "\n".join(f"• {dc} — {'✅' if status != 'out-of-stock' else '❌'}" for dc, status in hits)
+            send_telegram(f"<b>{code}</b>\n{lines}")
         time.sleep(CHECK_INTERVAL)
 
 
