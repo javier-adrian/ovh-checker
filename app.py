@@ -56,24 +56,10 @@ def polling_loop():
         log.error("Set PLAN_CODES env var, e.g. PLAN_CODES=vps-2025-model1,vps-2025-model2")
         return
 
-    send_telegram(f"🚀 OVH SGP VPS watcher started for: {', '.join(PLAN_CODES)}")
-
     while True:
         for code in PLAN_CODES:
-            hits = check_plan(code)
-            is_available = len(hits) > 0
-
-            if is_available and not _state[code]:
-                lines = "\n".join(f"• {dc} — {status}" for dc, status in hits)
-                send_telegram(f"✅ <b>{code}</b> available in SGP!\n{lines}")
-            elif not is_available and _state[code]:
-                send_telegram(f"❌ <b>{code}</b> no longer available in SGP.")
-
-            _state[code] = is_available
-            _last_check["results"][code] = is_available
-            log.info("%s -> available=%s", code, is_available)
-
-        _last_check["time"] = time.time()
+            lines = "\n".join(f"• {dc} — {status}" for dc, status in hits)
+            send_telegram(f"✅ <b>{code}\n{lines}")
         time.sleep(CHECK_INTERVAL)
 
 
