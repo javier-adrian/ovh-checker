@@ -61,7 +61,7 @@ def polling_loop():
             hits = check_plan(code)
             for dc, status in hits:
                 if status != "out-of-stock":
-                    lines = "\n".join(f"• {dc} — {status}")
+                    lines = f"• {dc} — {status}"
                     send_telegram(f"<b>{code}</b>\n{lines}")
         time.sleep(CHECK_INTERVAL)
 
